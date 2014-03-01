@@ -6,7 +6,7 @@ Audio transcription in the browser.
 Allows you to play an audio file and write the transcript, without having to leave the window.
 
 Requirements:
-- HTML5 <audio> element
+- HTML5 `audio` element
 - HTML5 FileReader API
 
 Running:
