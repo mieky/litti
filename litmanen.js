@@ -5,10 +5,16 @@ document.onreadystatechange = function () {
 }
 
 document.onkeydown = function(e) {
+    if (e.altKey && e.keyCode === 9) {
+        e.preventDefault();
+        getAudio().currentTime -= 5;
+        return;
+    }
     if (e.keyCode === 9) {
         e.preventDefault();
         togglePlayState();
     }
+
 }
 
 function getAudio() {
