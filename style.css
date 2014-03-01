@@ -9,6 +9,11 @@ body {
 
 h1 {
     font-size: 40px;
+    margin: 0 0 10px 0;
+}
+
+h2 {
+    font-size: 20px;
     margin: 0 0 20px 0;
 }
 
@@ -22,4 +27,9 @@ h1 {
     color: #333;
     font-size: 16px;
     padding: 10px;
+}
+
+.madeby {
+    position: absolute;
+    bottom: 20px;
 }
