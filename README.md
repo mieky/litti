@@ -10,6 +10,7 @@ Requirements:
 - HTML5 FileReader API
 
 Running:
+- start up a server and load it in a nice browser (up-to-date Chrome will do)
 - seeking requires HTTP 1.1 byte range support, so not just any server will do. [https://github.com/smgoller/rangehttpserver](rangehttpserver) does it right!
 
 Usage:
