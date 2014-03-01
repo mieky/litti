@@ -10,8 +10,12 @@
         <h1>litmanen</h1>
         <h2>audio transcripts in the browser</h2>
 
-        <audio src="36105__erh__roswell.wav" controls preload="auto">
-        <p>Your browser does not support the audio element </p>
+        <div id="holder" class="hidden">
+            Drag audio file here to start!
+        </div>
+
+        <audio class="hidden" src="" controls preload="auto">
+            <p>Your browser does not support the audio element.</p>
         </audio>
 
         <div class="help">

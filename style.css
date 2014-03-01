@@ -1,3 +1,7 @@
+.hidden {
+    display: none;
+}
+
 body {
     font-family: "faricy-new-web", sans-serif;
     font-size: 15px;
@@ -32,4 +36,17 @@ h2 {
 .madeby {
     position: absolute;
     bottom: 20px;
+}
+
+#holder {
+    border: 5px dashed #ccc;
+    width: 300px;
+    height: 60px;
+    margin: 0 0 20px 0;
+    line-height: 60px;
+    text-align: center;
+}
+
+#holder.hover {
+    border: 5px dashed #333;
 }
