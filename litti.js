@@ -1,5 +1,6 @@
 var currentFileName = null,
-    autosaveTimer = null;
+    autosaveTimer = null,
+    playheadTimer = null;
 
 function els(selector) {
     return document.querySelectorAll(selector);
@@ -25,7 +26,8 @@ function ready(filename) {
     });
     holder.classList.add("hidden");
 
-    getAudio().onloadeddata = function() {
+    var audio = getAudio();
+    audio.onloadeddata = function() {
         loadPosition(filename);
 
         delete autosaveTimer;
@@ -33,6 +35,12 @@ function ready(filename) {
             savePosition(filename);
             saveTranscript(filename);
         }, 1000);
+
+        delete playheadTimer;
+        var durationStyle = el(".duration").style;
+        playheadTimer = setInterval(function() {
+            durationStyle.width = (audio.currentTime * 100 / audio.duration) + '%';
+        }, 50);
     }
 
     loadTranscript(filename);

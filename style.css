@@ -10,10 +10,11 @@ html {
 body {
     font-family: "faricy-new-web", sans-serif;
     font-size: 16px;
-    padding: 10px;
+    padding: 20px 10px 10px 10px;
 
     background-color: #e5e5e5;
     background: linear-gradient(#f0f0f0, #e0e0e0);
+    color: #333;
 }
 
 a, a:link, a:visited, a:active {
@@ -40,6 +41,15 @@ h2 {
     width: 100px;
 }
 
+.duration {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 10px;
+    background-color: rgb(50, 200, 220);
+    opacity: 0.8;
+}
+
 audio {
     display: block;
     clear: both;
@@ -57,10 +67,12 @@ audio {
 .transcript {
     position: absolute;
     width: 500px;
-    top: 10px;
+    top: 30px;
+    bottom: 20px;
     left: 520px;
-    bottom: 10px;
 
+    border: 1px solid #aaa;
+    border-radius: 3px;
     color: #333;
     font-size: 16px;
     padding: 10px;
