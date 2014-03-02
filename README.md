@@ -7,11 +7,11 @@ Transcript an audio file in the comfort of your browser.
 
 ### Features
 
-- upload custom audio file by dragging it on the holder
-- comfortable hotkeys for play & pause, rewind & fast forward
-- write stuff
-- automatically stores playhead position & transcript progress in localStorage
-- counts words
+- upload custom audio file by drag & drop
+- play audio & write stuff
+- comfortable hotkeys for play & pause, rewind & fast forward, set speed
+- automatically store playhead position & transcript progress in localStorage
+- count words
 - download transcript as UTF-8 plaintext
 - progress bar
 
@@ -21,22 +21,23 @@ There's an instance running at http://mike.fi/litti/. Everything happens inside 
 
 ### Running
 
-You need:
-- a HTTP server which supports HTTP 1.1 byte ranges (to enable audio seeking)
-&mdash; for lightweight development purposes, [https://github.com/smgoller/rangehttpserver](rangehttpserver) does it right!
-- a modern web browser; a recent Google Chrome will do fine
+Tested and should work with an up-to-date Google Chrome, both on OS X and Windows.
 
 More specifically, litti uses the following HTML5 features:
 
 - [&lt;audio&gt; element](http://caniuse.com/audio)
 - [FileReader API](http://caniuse.com/filereader)
 - [classList API](http://caniuse.com/classlist)
+- [requestAnimationFrame](http://caniuse.com/requestanimationframe)
+
+(If you were to serve the audio from the server in the src tag instead of letting the user upload it, you would need a HTTP server which supports HTTP 1.1 byte ranges to enable audio seeking
+&mdash; for lightweight development purposes, [https://github.com/smgoller/rangehttpserver](rangehttpserver) does it right!)
 
 ### Todo:
 
 - browser support detection
+- seeking with progress bar
 - fix Firefox compatibility issues: play/pause button, textarea height, etc.
-- playback rate adjustment
 
 ### FAQ
 

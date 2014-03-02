@@ -142,11 +142,29 @@ function download() {
     pom.click();
 }
 
+function adjustPlaybackRate(amount) {
+    var rate = Math.round((getAudio().playbackRate + amount) * 10) / 10;
+    if (rate >= 0.5 && rate <= 1.5) {
+        getAudio().playbackRate = rate;
+        el(".playback-rate").innerHTML = rate + 'x';
+    }
+}
+
 document.onkeydown = function(e) {
     if (e.shiftKey && e.keyCode === 9) { // shift-tab
         e.preventDefault();
         getAudio().currentTime += 5;
         return;
+    }
+
+    if (e.altKey && e.keyCode === 187) {
+        e.preventDefault();
+        return adjustPlaybackRate(.1);
+    }
+
+    if (e.altKey && e.keyCode === 189) {
+        e.preventDefault();
+        return adjustPlaybackRate(-.1);
     }
 
     if (e.keyCode === 9) { // tab
