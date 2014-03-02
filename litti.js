@@ -158,7 +158,6 @@ if (typeof window.FileReader !== 'undefined') {
 
 document.onreadystatechange = function() {
     if (document.readyState == "complete") {
-        focusTranscript();
         el(".download-file").addEventListener("click", download, false);
     }
 }
