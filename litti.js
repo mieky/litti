@@ -104,6 +104,15 @@ function updateWordCount() {
     el(".word-count").innerHTML = count;
 }
 
+function download() {
+    var filename = 'transcript_' + currentFileName + '.txt';
+    var text = el(".transcript").value;
+    var pom = document.createElement('a');
+    pom.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+    pom.setAttribute('download', filename);
+    pom.click();
+}
+
 document.onkeydown = function(e) {
     if (e.shiftKey && e.keyCode === 9) { // shift-tab
         e.preventDefault();
@@ -135,5 +144,6 @@ if (typeof window.FileReader !== 'undefined') {
 document.onreadystatechange = function() {
     if (document.readyState == "complete") {
         focusTranscript();
+        el(".download-file").addEventListener("click", download, false);
     }
 }
