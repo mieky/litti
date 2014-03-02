@@ -35,7 +35,9 @@ More specifically, litti uses the following HTML5 features:
 - count words
 - show nice progress bar
 - browser support detection
+- fix Firefox compatibility issues: play/pause button, textarea height
 - load & save/export
+- playback rate adjustment
 
 ### FAQ
 
