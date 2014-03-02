@@ -36,7 +36,7 @@ More specifically, litti uses the following HTML5 features:
 
 Q. **What's with the name and the logo?**
 
-A. [Jari 'Litti' Litmanen](https://en.wikipedia.org/wiki/Jari_Litmanen) has his own special way of doing a 'thumb up'.
+A. [Jari 'Litti' Litmanen](https://en.wikipedia.org/wiki/Jari_Litmanen) has his own special way of doing a 'thumbs up'. Also, transscription is called *litterointi* in Finnish.
 
 ### License
 
