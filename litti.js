@@ -2,6 +2,13 @@ var currentFileName = null,
     autosaveTimer = null,
     playheadTimer = null;
 
+var TOGGLE_KEY_CODE = (function(platform) {
+    if (platform === "MacIntel") {
+        return 192;
+    }
+    return 220;
+}(window.navigator.platform));
+
 function els(selector) {
     return document.querySelectorAll(selector);
 }
@@ -134,7 +141,7 @@ document.onkeydown = function(e) {
         return;
     }
 
-    if (e.keyCode === 192) { // §
+    if (e.keyCode === TOGGLE_KEY_CODE) { // §
         e.preventDefault();
         togglePlayState();
         return;
