@@ -1,5 +1,5 @@
-litmanen
-========
+litti
+=====
 
 Audio transcription in the browser.
 
