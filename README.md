@@ -12,6 +12,11 @@ Transcript an audio file in the comfort of your browser.
 - write stuff
 - automatically stores playhead position & transcript progress in localStorage
 
+
+### Demo
+
+There's one running at http://mike.fi/litti/.
+
 ### Running
 
 You need:
