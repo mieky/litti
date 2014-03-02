@@ -15,7 +15,7 @@ Transcript an audio file in the comfort of your browser.
 
 ### Demo
 
-There's one running at http://mike.fi/litti/.
+There's an instance running at http://mike.fi/litti/. Everything happens inside the browser, so if you find it useful, nothing prevents you from doing actual work with it. Have fun!
 
 ### Running
 
