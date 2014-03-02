@@ -1,6 +1,7 @@
 var currentFileName = null,
     autosaveTimer = null,
-    playheadTimer = null;
+    playheadTimer = null,
+    playing = false;
 
 var TOGGLE_KEY_CODE = (function(platform) {
     if (platform === "MacIntel") {
@@ -37,21 +38,34 @@ function ready(filename) {
     audio.onloadeddata = function() {
         loadPosition(filename);
 
-        delete autosaveTimer;
         autosaveTimer = setInterval(function() {
             savePosition(filename);
             saveTranscript(filename);
         }, 1000);
 
-        delete playheadTimer;
-        var durationStyle = el(".duration").style;
-        playheadTimer = setInterval(function() {
-            durationStyle.width = (audio.currentTime * 100 / audio.duration) + '%';
-        }, 50);
+        audio.addEventListener("play", function(e) {
+            playing = true;
+            (function animloop() {
+                if (playing) {
+                    requestAnimationFrame(animloop);
+                }
+                updateProgress();
+            }());
+        }, false);
+
+        audio.addEventListener("pause", function(e) {
+            playing = false;
+        }, false);
+
+        audio.addEventListener("seeked", updateProgress, false);
     }
 
     loadTranscript(filename);
     focusTranscript();
+}
+
+function updateProgress() {
+    el(".duration").style.width = (getAudio().currentTime * 100 / getAudio().duration) + '%';
 }
 
 function togglePlayState() {
