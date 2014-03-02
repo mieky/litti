@@ -1,6 +1,8 @@
 litti
 =====
 
+![](https://raw.github.com/mieky/litti/master/litti.png)
+
 Audio transcription in the browser.
 
 Allows you to play an audio file and write the transcript, without having to leave the window.
