@@ -83,7 +83,7 @@ audio {
     bottom: 20px;
 }
 
-#holder {
+.dropbox {
     clear: both;
     width: 450px;
     height: 80px;
@@ -101,7 +101,7 @@ audio {
     font-weight: bold;
 }
 
-#holder.hover {
+.dropbox.hover {
     border: 5px dashed #999;
 }
 

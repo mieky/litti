@@ -1,13 +1,5 @@
-var currentFileName = null,
-    autosaveTimer = null,
-    playheadTimer = null,
-    playing = false;
-
 var TOGGLE_KEY_CODE = (function(platform) {
-    if (platform === "MacIntel") {
-        return 192;
-    }
-    return 220;
+    return platform === "MacIntel" ? 192 : 220;
 }(window.navigator.platform));
 
 function els(selector) {
@@ -18,8 +10,8 @@ function el(selector) {
     return els(selector)[0];
 }
 
-function focusTranscript() {
-    document.querySelector(".transcript").focus();
+function forEls(selector, callback) {
+    [].forEach.call(els(selector), callback);
 }
 
 function getAudio() {
@@ -27,27 +19,30 @@ function getAudio() {
 }
 
 function ready(filename) {
-    currentFileName = filename;
+    el(".download-file").addEventListener("click", function(e) {
+        e.preventDefault();
+        download(filename);
+    }, false);
 
-    [].forEach.call(els(".hidden-until-ready"), function(e) {
-        e.classList.remove("hidden");
-    });
-    holder.classList.add("hidden");
+    forEls(".hidden-until-ready", function(el) { el.classList.remove("hidden"); });
+    el(".dropbox").classList.add("hidden");
 
     var audio = getAudio();
-    audio.onloadeddata = function() {
+    audio.addEventListener("loadeddata", function() {
         loadPosition(filename);
 
-        autosaveTimer = setInterval(function() {
+        // Save current progress till the end of time
+        setInterval(function() {
             savePosition(filename);
             saveTranscript(filename);
         }, 1000);
 
+        var playing = false;
         audio.addEventListener("play", function(e) {
             playing = true;
-            (function animloop() {
+            (function animationLoop() {
                 if (playing) {
-                    requestAnimationFrame(animloop);
+                    requestAnimationFrame(animationLoop);
                 }
                 updateProgress();
             }());
@@ -58,14 +53,15 @@ function ready(filename) {
         }, false);
 
         audio.addEventListener("seeked", updateProgress, false);
-    }
+    }, false);
 
     loadTranscript(filename);
-    focusTranscript();
+    document.querySelector(".transcript").focus();
 }
 
 function updateProgress() {
-    el(".duration").style.width = (getAudio().currentTime * 100 / getAudio().duration) + '%';
+    el(".duration").style.width =
+        (getAudio().currentTime * 100 / getAudio().duration) + '%';
 }
 
 function togglePlayState() {
@@ -77,19 +73,19 @@ function togglePlayState() {
     }
 }
 
-var holder = document.getElementById('holder');
-holder.ondragover = function() {
-    this.className = 'hover';
+var dropbox = el(".dropbox");
+dropbox.ondragover = function() {
+    this.classList.add("hover");
     return false;
 };
 
-holder.ondragend = function() {
-    this.className = '';
+dropbox.ondragend = function() {
+    this.classList.remove("hover");
     return false;
 };
 
-holder.ondrop = function(e) {
-    this.className = '';
+dropbox.ondrop = function(e) {
+    this.classList.remove("hover");
     e.preventDefault();
 
     var file = e.dataTransfer.files[0],
@@ -133,8 +129,8 @@ function updateWordCount() {
     el(".word-count").innerHTML = count;
 }
 
-function download() {
-    var filename = 'transcript_' + currentFileName + '.txt';
+function download(filename) {
+    var filename = 'transcript_' + filename + '.txt';
     var text = el(".transcript").value;
     var pom = document.createElement('a');
     pom.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
@@ -150,7 +146,7 @@ function adjustPlaybackRate(amount) {
     }
 }
 
-document.onkeydown = function(e) {
+document.addEventListener("keydown", function(e) {
     if (e.shiftKey && e.keyCode === 9) { // shift-tab
         e.preventDefault();
         getAudio().currentTime += 5;
@@ -182,14 +178,10 @@ document.onkeydown = function(e) {
     if (e.keyCode < 65 || e.keyCode > 90) { // other than a..z
         updateWordCount();
     }
-}
-
-if (typeof window.FileReader !== 'undefined') {
-    holder.classList.remove("hidden");
-}
+}, false);
 
 document.onreadystatechange = function() {
     if (document.readyState == "complete") {
-        el(".download-file").addEventListener("click", download, false);
+        console.log("Ready!");
     }
 }
