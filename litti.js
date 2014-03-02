@@ -26,7 +26,6 @@ function ready(filename) {
 
         delete autosaveTimer;
         autosaveTimer = setInterval(function() {
-            console.log("Saving...");
             savePosition(filename);
             saveTranscript(filename);
         }, 1000);
@@ -95,7 +94,7 @@ function saveTranscript(filename) {
 }
 
 document.onkeydown = function(e) {
-    if (e.altKey && e.keyCode === 9) { // alt-tab
+    if (e.shiftKey && e.keyCode === 9) { // shift-tab
         e.preventDefault();
         getAudio().currentTime -= 5;
         return;
@@ -103,7 +102,14 @@ document.onkeydown = function(e) {
 
     if (e.keyCode === 9) { // tab
         e.preventDefault();
+        getAudio().currentTime += 5;
+        return;
+    }
+
+    if (e.keyCode === 192) { // §
+        e.preventDefault();
         togglePlayState();
+        return;
     }
 }
 

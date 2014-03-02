@@ -10,8 +10,7 @@ Allows you to write a transcript of an audio file in the comfort of your browser
 ### Features
 
 - upload custom audio file by dragging it on the holder
-- hit tab to play/pause the audio file
-- alt-tab skips backwards a little
+- comfortable hotkeys for play & pause, rewind & fast forward
 - write stuff
 - automatically stores playhead position & transcript progress in localStorage
 
