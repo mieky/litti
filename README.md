@@ -11,7 +11,7 @@ Transcript an audio file in the comfort of your browser.
 - comfortable hotkeys for play & pause, rewind & fast forward
 - write stuff
 - automatically stores playhead position & transcript progress in localStorage
-
+- counts words
 
 ### Demo
 
@@ -32,7 +32,6 @@ More specifically, litti uses the following HTML5 features:
 
 ### Todo:
 
-- count words
 - show nice progress bar
 - browser support detection
 - fix Firefox compatibility issues: play/pause button, textarea height

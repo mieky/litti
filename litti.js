@@ -123,7 +123,7 @@ document.onkeydown = function(e) {
         return;
     }
 
-    if (e.keyCode === 32) { // space
+    if (e.keyCode < 65 || e.keyCode > 90) { // other than a..z
         updateWordCount();
     }
 }
