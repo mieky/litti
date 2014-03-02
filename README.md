@@ -1,11 +1,9 @@
 litti
 =====
 
-Audio transcripts in the browser.
+Transcript an audio file in the comfort of your browser.
 
 ![](https://raw.github.com/mieky/litti/master/litti.png)
-
-Allows you to write a transcript of an audio file in the comfort of your browser.
 
 ### Features
 
@@ -33,6 +31,12 @@ More specifically, litti uses the following HTML5 features:
 - show nice progress bar
 - browser support detection
 - load & save/export
+
+### FAQ
+
+Q. **What's the logo about?**
+
+A. Jari 'litti' Litmanen has his own special way of doing a 'thumb up'.
 
 ### License
 

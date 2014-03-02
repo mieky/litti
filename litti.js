@@ -96,13 +96,13 @@ function saveTranscript(filename) {
 document.onkeydown = function(e) {
     if (e.shiftKey && e.keyCode === 9) { // shift-tab
         e.preventDefault();
-        getAudio().currentTime -= 5;
+        getAudio().currentTime += 5;
         return;
     }
 
     if (e.keyCode === 9) { // tab
         e.preventDefault();
-        getAudio().currentTime += 5;
+        getAudio().currentTime -= 5;
         return;
     }
 
