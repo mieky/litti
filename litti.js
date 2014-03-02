@@ -1,8 +1,12 @@
 var currentFileName = null,
     autosaveTimer = null;
 
+function els(selector) {
+    return document.querySelectorAll(selector);
+}
+
 function el(selector) {
-    return document.querySelector(selector);
+    return els(selector)[0];
 }
 
 function focusTranscript() {
@@ -16,10 +20,10 @@ function getAudio() {
 function ready(filename) {
     currentFileName = filename;
 
-    getAudio().classList.remove("hidden");
-    el(".help").classList.remove("hidden");
+    [].forEach.call(els(".hidden-until-ready"), function(e) {
+        e.classList.remove("hidden");
+    });
     holder.classList.add("hidden");
-
 
     getAudio().onloadeddata = function() {
         loadPosition(filename);
@@ -30,6 +34,7 @@ function ready(filename) {
             saveTranscript(filename);
         }, 1000);
     }
+
     loadTranscript(filename);
     focusTranscript();
 }
@@ -86,11 +91,17 @@ function loadTranscript(filename) {
     var transcript = localStorage.getItem("transcript_" + filename);
     if (transcript !== null) {
         el(".transcript").value = transcript;
+        updateWordCount();
     }
 }
 
 function saveTranscript(filename) {
     localStorage.setItem("transcript_" + filename, el(".transcript").value);
+}
+
+function updateWordCount() {
+    var count = el(".transcript").value.trim().split(/\s+/).length;
+    el(".word-count").innerHTML = count;
 }
 
 document.onkeydown = function(e) {
@@ -110,6 +121,10 @@ document.onkeydown = function(e) {
         e.preventDefault();
         togglePlayState();
         return;
+    }
+
+    if (e.keyCode === 32) { // space
+        updateWordCount();
     }
 }
 

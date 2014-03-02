@@ -20,16 +20,18 @@
             Drag audio file here to start!
         </div>
 
-        <audio class="hidden" src="" controls preload="auto">
+        <audio class="hidden hidden-until-ready" src="" controls preload="auto">
             <p>Your browser does not support the audio element.</p>
         </audio>
 
-        <div class="help hidden">
+        <div class="help hidden hidden-until-ready">
             <ul>
                 <li>&sect; plays/pauses</li>
                 <li>TAB skips backward 5 seconds</li>
             </ul>
         </div>
+
+        <div class="count hidden hidden-until-ready">Word count: <span class="word-count">0</span></div>
 
         <textarea class="transcript" placeholder="Your transcript here"></textarea>
 
