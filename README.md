@@ -12,7 +12,7 @@ Transcript an audio file in the comfort of your browser.
 - comfortable hotkeys for play & pause, rewind & fast forward, set speed
 - automatically store playhead position & transcript progress in localStorage
 - count words
-- download transcript as UTF-8 plaintext
+- download transcript as UTF-8 plaintext (*Google Chrome only*)
 - progress bar
 
 ### Demo
@@ -36,7 +36,7 @@ More specifically, litti uses the following HTML5 features:
 ### Todo:
 
 - move caret to end on load
-- browser support detection (e.g. direct download doesn't work on Firefox)
+- browser support detection
 - seeking with progress bar
 
 ### FAQ
@@ -47,6 +47,4 @@ A. [Jari 'Litti' Litmanen](https://en.wikipedia.org/wiki/Jari_Litmanen) has his 
 
 ### License
 
-MIT
-
-The sample Roswell sound is from [freesound.org](http://www.freesound.org/people/ERH/sounds/36105/).
+MIT.
