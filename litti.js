@@ -129,7 +129,11 @@ function savePosition(filename) {
 function loadTranscript(filename) {
     var transcript = localStorage.getItem("transcript_" + filename);
     if (transcript !== null) {
-        el(".transcript").value = transcript;
+        var t = el(".transcript")
+        // Set value, move caret to end, focus
+        t.value = transcript;
+        t.selectionStart = t.selectionEnd = t.value.length;
+        t.focus();
         updateWordCount();
     }
 }

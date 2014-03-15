@@ -35,7 +35,6 @@ More specifically, litti uses the following HTML5 features:
 
 ### Todo:
 
-- move caret to end on load
 - browser support detection
 - seeking with progress bar
 
