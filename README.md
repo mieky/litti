@@ -37,6 +37,7 @@ More specifically, litti uses the following HTML5 features:
 
 - browser support detection
 - seeking with progress bar
+- support for video transcripts?
 
 ### FAQ
 
