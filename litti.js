@@ -2,6 +2,15 @@ var TOGGLE_KEY_CODE = (function(platform) {
     return platform === "MacIntel" ? 192 : 220;
 }(window.navigator.platform));
 
+function checkBrowser() {
+    var isFirefox = window.navigator.userAgent.indexOf("Firefox") !== -1;
+    if (isFirefox) {
+        alert(
+            "The keyboard shortcuts probably won't work in Mozilla Firefox. " +
+            "Google Chrome should be okay for now. Sorry for the trouble!");
+    }
+}
+
 function els(selector) {
     return document.querySelectorAll(selector);
 }
@@ -183,5 +192,6 @@ document.addEventListener("keydown", function(e) {
 document.onreadystatechange = function() {
     if (document.readyState == "complete") {
         console.log("Ready!");
+        checkBrowser();
     }
 }
