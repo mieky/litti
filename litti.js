@@ -90,19 +90,19 @@ function togglePlayState() {
 }
 
 var dropbox = el(".dropbox");
-dropbox.ondragover = function() {
-    this.classList.add("hover");
-    return false;
-};
-
-dropbox.ondragend = function() {
-    this.classList.remove("hover");
-    return false;
-};
-
-dropbox.ondrop = function(e) {
-    this.classList.remove("hover");
+dropbox.addEventListener("dragover", function(e) {
     e.preventDefault();
+    this.classList.add("hover");
+}, false);
+
+dropbox.addEventListener("dragend", function(e) {
+    e.preventDefault();
+    this.classList.remove("hover");
+}, false);
+
+dropbox.addEventListener("drop", function(e) {
+    e.preventDefault();
+    this.classList.remove("hover");
 
     var file = e.dataTransfer.files[0],
         reader = new FileReader();
@@ -112,9 +112,7 @@ dropbox.ondrop = function(e) {
         fileReady(file.name);
     };
     reader.readAsDataURL(file);
-
-  return false;
-};
+}, false);
 
 function loadPosition(filename) {
     var position = localStorage.getItem("position_" + filename);
@@ -163,23 +161,14 @@ function adjustPlaybackRate(amount) {
     }
 }
 
+// Listeners for both keydown and keypress are required because of
+// how differently Chrome and Firefox handle keyboard events and codes.
+
 document.addEventListener("keydown", function(e) {
-    if (e.shiftKey && e.keyCode === KEYCODES.tab) { // shift-tab
+    if (e.shiftKey && e.keyCode === KEYCODES.tab) {
         e.preventDefault();
         getAudio().currentTime += 5;
         return;
-    }
-
-    // 'plus': 187 in Chrome, 171 in FF
-    if (e.altKey && e.keyCode === KEYCODES.plus) {
-        e.preventDefault();
-        return adjustPlaybackRate(.1);
-    }
-
-    // 'minus': 189 in Chrome, 173 in FF
-    if (e.altKey && e.keyCode === KEYCODES.minus) {
-        e.preventDefault();
-        return adjustPlaybackRate(-.1);
     }
 
     if (e.keyCode === KEYCODES.tab) { // tab
@@ -187,17 +176,31 @@ document.addEventListener("keydown", function(e) {
         getAudio().currentTime -= 5;
         return;
     }
+
+    if (e.altKey && e.keyCode === KEYCODES.plus) {
+        e.preventDefault();
+        return adjustPlaybackRate(.1);
+    }
+
+    if (e.altKey && e.keyCode === KEYCODES.minus) {
+        e.preventDefault();
+        return adjustPlaybackRate(-.1);
+    }
+
 }, false);
 
 document.addEventListener("keypress", function(e) {
-    // §: Firefox only returns e.charCode on keypress, not keydown
-    if (e.charCode === CHARCODES.toggle) { // §
+    // §: Firefox only returns e.charCode on keypress, not keydown.
+    // Also, keyCode doesn't work for this character, because in FF it's 0.
+    if (e.charCode === CHARCODES.toggle) {
         e.preventDefault();
         togglePlayState();
         return;
     }
 
-    // Other than [a..zA..Z]
+    // Other than [a..zA..Z]. keyCode would have been cooler, but it
+    // only works in Chrome. Luckily, it doesn't hurt if we update the
+    // word count a bit more often than required.
     if (e.charCode < 65 || e.charCode > 122) {
         updateWordCount();
     }
