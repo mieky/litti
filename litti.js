@@ -1,23 +1,25 @@
-var TOGGLE_KEY_CODE = (function(platform) {
-    return platform === "MacIntel" ? 192 : 220;
-}(window.navigator.platform));
+function isFirefox() {
+    return window.navigator.userAgent.indexOf("Firefox") !== -1;
+}
 
-function checkBrowser() {
-    var isFirefox = window.navigator.userAgent.indexOf("Firefox") !== -1;
-    if (isFirefox) {
-        alert(
-            "The keyboard shortcuts probably won't work in Mozilla Firefox. " +
-            "Google Chrome should be okay for now. Sorry for the trouble!");
+var KEYCODES = (function(platform, isFirefox) {
+    return {
+        tab: 9,
+        plus: isFirefox ? 171 : 187,
+        minus: isFirefox ? 173 : 189
     }
+}(window.navigator.platform, isFirefox()));
+
+var CHARCODES = {
+    toggle: 167
+};
+
+function checkCompatibility() {
+    // TODO: do feature detection
 }
 
-function els(selector) {
-    return document.querySelectorAll(selector);
-}
-
-function el(selector) {
-    return els(selector)[0];
-}
+function els(selector) { return document.querySelectorAll(selector); }
+function el(selector)  { return els(selector)[0]; }
 
 function forEls(selector, callback) {
     [].forEach.call(els(selector), callback);
@@ -27,17 +29,25 @@ function getAudio() {
     return document.getElementsByTagName("audio")[0];
 }
 
-function ready(filename) {
+function fileReady(filename) {
     el(".download-file").addEventListener("click", function(e) {
         e.preventDefault();
         download(filename);
     }, false);
 
-    forEls(".hidden-until-ready", function(el) { el.classList.remove("hidden"); });
+    forEls(".hidden-until-ready", function(el) {
+        el.classList.remove("hidden");
+    });
     el(".dropbox").classList.add("hidden");
 
-    var audio = getAudio();
-    audio.addEventListener("loadeddata", function() {
+    getAudio().addEventListener("loadeddata", playerReady(filename), false);
+
+    loadTranscript(filename);
+    document.querySelector(".transcript").focus();
+}
+
+function playerReady(filename) {
+    return function(e) {
         loadPosition(filename);
 
         // Save current progress till the end of time
@@ -47,7 +57,7 @@ function ready(filename) {
         }, 1000);
 
         var playing = false;
-        audio.addEventListener("play", function(e) {
+        this.addEventListener("play", function(e) {
             playing = true;
             (function animationLoop() {
                 if (playing) {
@@ -57,15 +67,12 @@ function ready(filename) {
             }());
         }, false);
 
-        audio.addEventListener("pause", function(e) {
+        this.addEventListener("pause", function(e) {
             playing = false;
         }, false);
 
-        audio.addEventListener("seeked", updateProgress, false);
-    }, false);
-
-    loadTranscript(filename);
-    document.querySelector(".transcript").focus();
+        this.addEventListener("seeked", updateProgress, false);
+    };
 }
 
 function updateProgress() {
@@ -102,7 +109,7 @@ dropbox.ondrop = function(e) {
 
     reader.onload = function(event) {
         getAudio().src = event.target.result;
-        ready(file.name);
+        fileReady(file.name);
     };
     reader.readAsDataURL(file);
 
@@ -138,6 +145,7 @@ function updateWordCount() {
     el(".word-count").innerHTML = count;
 }
 
+// Doesn't work on Firefox :-(
 function download(filename) {
     var filename = 'transcript_' + filename + '.txt';
     var text = el(".transcript").value;
@@ -156,35 +164,41 @@ function adjustPlaybackRate(amount) {
 }
 
 document.addEventListener("keydown", function(e) {
-    if (e.shiftKey && e.keyCode === 9) { // shift-tab
+    if (e.shiftKey && e.keyCode === KEYCODES.tab) { // shift-tab
         e.preventDefault();
         getAudio().currentTime += 5;
         return;
     }
 
-    if (e.altKey && e.keyCode === 187) {
+    // 'plus': 187 in Chrome, 171 in FF
+    if (e.altKey && e.keyCode === KEYCODES.plus) {
         e.preventDefault();
         return adjustPlaybackRate(.1);
     }
 
-    if (e.altKey && e.keyCode === 189) {
+    // 'minus': 189 in Chrome, 173 in FF
+    if (e.altKey && e.keyCode === KEYCODES.minus) {
         e.preventDefault();
         return adjustPlaybackRate(-.1);
     }
 
-    if (e.keyCode === 9) { // tab
+    if (e.keyCode === KEYCODES.tab) { // tab
         e.preventDefault();
         getAudio().currentTime -= 5;
         return;
     }
+}, false);
 
-    if (e.keyCode === TOGGLE_KEY_CODE) { // §
+document.addEventListener("keypress", function(e) {
+    // §: Firefox only returns e.charCode on keypress, not keydown
+    if (e.charCode === CHARCODES.toggle) { // §
         e.preventDefault();
         togglePlayState();
         return;
     }
 
-    if (e.keyCode < 65 || e.keyCode > 90) { // other than a..z
+    // Other than [a..zA..Z]
+    if (e.charCode < 65 || e.charCode > 122) {
         updateWordCount();
     }
 }, false);
@@ -192,6 +206,6 @@ document.addEventListener("keydown", function(e) {
 document.onreadystatechange = function() {
     if (document.readyState == "complete") {
         console.log("Ready!");
-        checkBrowser();
+        checkCompatibility();
     }
 }

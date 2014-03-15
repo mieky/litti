@@ -21,7 +21,7 @@ There's an instance running at http://mike.fi/litti/. Everything happens inside 
 
 ### Running
 
-Tested and should work with an up-to-date Google Chrome, both on OS X and Windows.
+Tested and should work with an up-to-date Google Chrome or Mozilla Firefox, both on OS X and Windows.
 
 More specifically, litti uses the following HTML5 features:
 
@@ -35,9 +35,9 @@ More specifically, litti uses the following HTML5 features:
 
 ### Todo:
 
+- move caret to end on load
 - browser support detection
 - seeking with progress bar
-- fix Firefox compatibility issues: play/pause button, textarea height, etc.
 
 ### FAQ
 
