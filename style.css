@@ -64,12 +64,17 @@ audio {
     border-radius: 3px;
 }
 
-.transcript {
+.transcript-container {
     position: absolute;
     width: 500px;
     top: 30px;
-    bottom: 20px;
+    bottom: 40px;
     left: 520px;
+}
+
+.transcript {
+    height: 100%;
+    width: 100%;
 
     border: 1px solid #aaa;
     border-radius: 3px;
