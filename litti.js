@@ -18,39 +18,43 @@ function checkCompatibility() {
     // TODO: do feature detection
 }
 
-function els(selector) { return document.querySelectorAll(selector); }
-function el(selector)  { return els(selector)[0]; }
-
-function forEls(selector, callback) {
-    [].forEach.call(els(selector), callback);
+function el(selector) {
+    return document.querySelector(selector);
 }
 
-function getAudio() {
-    return document.getElementsByTagName("audio")[0];
+function getMedia() {
+    return el(".media");
 }
 
 function fileReady(filename) {
-    el(".download-file").addEventListener("click", function(e) {
-        e.preventDefault();
-        download(filename);
-    }, false);
+    getMedia().addEventListener("loadeddata",
+        playerReady(filename), false);
 
-    forEls(".hidden-until-ready", function(el) {
-        el.classList.remove("hidden");
-    });
+    el(".intro").classList.add("hidden");
     el(".dropbox").classList.add("hidden");
-
-    getAudio().addEventListener("loadeddata", playerReady(filename), false);
-
+    el(".transcript").classList.remove("hidden");
     loadTranscript(filename);
     document.querySelector(".transcript").focus();
+}
+
+function showUI() {
+    if (!isFirefox()) {
+        el(".download-file").classList.remove("hidden");
+        el(".download-file").addEventListener("click", function(e) {
+            e.preventDefault();
+            download(filename);
+        }, false);
+    }
+
+    el(".duration-container").classList.add("ready");
+    el(".help").classList.remove("hidden");
+    el(".count").classList.remove("hidden");
 }
 
 function playerReady(filename) {
     return function(e) {
         loadPosition(filename);
         setMarker(".end-time", this.duration);
-        el(".duration-container").classList.add("ready");
 
         // Save current progress till the end of time
         setInterval(function() {
@@ -74,6 +78,8 @@ function playerReady(filename) {
         }, false);
 
         this.addEventListener("seeked", updateProgress, false);
+
+        showUI();
     };
 }
 
@@ -88,12 +94,12 @@ function setMarker(sel, time) {
 
 function updateProgress() {
     el(".duration").style.width =
-        (getAudio().currentTime * 100 / getAudio().duration) + '%';
-    setMarker(".current-time", getAudio().currentTime);
+        (getMedia().currentTime * 100 / getMedia().duration) + '%';
+    setMarker(".current-time", getMedia().currentTime);
 }
 
 function togglePlayState() {
-    var audio = getAudio();
+    var audio = getMedia();
     if (audio.paused) {
         audio.play();
     } else {
@@ -107,6 +113,10 @@ dropbox.addEventListener("dragover", function(e) {
     this.classList.add("hover");
 }, false);
 
+dropbox.addEventListener("dragleave", function(e) {
+    this.classList.remove("hover");
+});
+
 dropbox.addEventListener("dragend", function(e) {
     e.preventDefault();
     this.classList.remove("hover");
@@ -115,12 +125,13 @@ dropbox.addEventListener("dragend", function(e) {
 dropbox.addEventListener("drop", function(e) {
     e.preventDefault();
     this.classList.remove("hover");
+    el(".dropbox-info").innerHTML = "Loading...";
 
     var file = e.dataTransfer.files[0],
         reader = new FileReader();
 
     reader.onload = function(event) {
-        getAudio().src = event.target.result;
+        getMedia().src = event.target.result;
         fileReady(file.name);
     };
     reader.readAsDataURL(file);
@@ -129,7 +140,7 @@ dropbox.addEventListener("drop", function(e) {
 
 function getDurationClickSeconds(e) {
     var percent = e.clientX / el(".duration-container").offsetWidth;
-    return percent * getAudio().duration;
+    return percent * getMedia().duration;
 }
 
 el(".duration-container").addEventListener("mousemove", function(e) {
@@ -138,25 +149,25 @@ el(".duration-container").addEventListener("mousemove", function(e) {
 }, false);
 
 el(".duration-container").addEventListener("mouseout", function(e) {
-    setMarker(".current-time", getAudio().currentTime);
+    setMarker(".current-time", getMedia().currentTime);
 }, false);
 
 el(".duration-container").addEventListener("click", function(e) {
     var currentSeconds = getDurationClickSeconds(e);
-    getAudio().currentTime = currentSeconds;
+    getMedia().currentTime = currentSeconds;
     el(".transcript").focus();
 });
 
 function loadPosition(filename) {
     var position = localStorage.getItem("position_" + filename);
     if (position !== null) {
-        getAudio().currentTime = parseFloat(position, 10);
+        getMedia().currentTime = parseFloat(position, 10);
     }
 }
 
 function savePosition(filename) {
     localStorage.setItem("position_" + filename,
-        "" + getAudio().currentTime);
+        "" + getMedia().currentTime);
 }
 
 function loadTranscript(filename) {
@@ -194,9 +205,9 @@ function download(filename) {
 }
 
 function adjustPlaybackRate(amount) {
-    var rate = Math.round((getAudio().playbackRate + amount) * 10) / 10;
+    var rate = Math.round((getMedia().playbackRate + amount) * 10) / 10;
     if (rate >= 0.5 && rate <= 1.5) {
-        getAudio().playbackRate = rate;
+        getMedia().playbackRate = rate;
         el(".playback-rate").innerHTML = rate + 'x';
     }
 }
@@ -207,13 +218,13 @@ function adjustPlaybackRate(amount) {
 document.addEventListener("keydown", function(e) {
     if (e.shiftKey && e.keyCode === KEYCODES.tab) {
         e.preventDefault();
-        getAudio().currentTime += 5;
+        getMedia().currentTime += 5;
         return;
     }
 
     if (e.keyCode === KEYCODES.tab) { // tab
         e.preventDefault();
-        getAudio().currentTime -= 5;
+        getMedia().currentTime -= 5;
         return;
     }
 

@@ -12,12 +12,18 @@
         <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
 </head>
     <body>
-        <img class="logo" src="litti.png" alt="litti" />
-        <h1>litti</h1>
-        <h2>audio transcripts in the browser</h2>
+        <header>
+            <img class="logo" src="litti.png" alt="litti" />
+            <h1>litti</h1>
+            <h2>audio transcripts in the browser</h2>
+        </header>
 
-        <div class="dropbox">
-            Drag audio file here to start!
+        <div class="intro">
+            <p>with this little tool, you can "upload" an audio file and write
+                a transcript of it in your browser without having to install anything.</p>
+
+            <p>everything will happen on your own computer, so you don't have to worry
+                about privacy. hope you find it useful!</p>
         </div>
 
         <div class="duration-container">
@@ -26,11 +32,11 @@
             <div class="time-label end-time"></div>
         </div>
 
-        <audio class="hidden hidden-until-ready" src="" controls preload="auto">
+        <audio class="media hidden" src="" controls preload="auto">
             <p>Your browser does not support the audio element.</p>
         </audio>
 
-        <div class="help hidden hidden-until-ready">
+        <div class="help hidden">
             <ul>
                 <li><em>&sect;</em> plays/pauses</li>
                 <li><em>TAB</em> & <em>SHIFT-TAB</em> skips backward/forward 5 seconds</li>
@@ -38,14 +44,17 @@
             </ul>
         </div>
 
-        <div class="count hidden hidden-until-ready">
+        <a class="download-file button hidden" href="#">Download transcript</a>
+
+        <div class="count hidden">
             Word count: <span class="word-count">0</span>
         </div>
 
-        <a class="download-file button hidden hidden-until-ready" href="#">Download transcript</a>
-
         <div class="transcript-container">
-            <textarea class="transcript" placeholder="Write your transcript here. Everything happens in your own browser – no privacy worries!"></textarea>
+            <div class="dropbox animated bounce">
+                <div class="dropbox-info">Drag your audio file here to get started!</div>
+            </div>
+            <textarea class="transcript hidden" placeholder="Write your transcript here."></textarea>
         </div>
 
         <div class="madeby">a thing by <a href="https://twitter.com/mieky">@mieky</a>.

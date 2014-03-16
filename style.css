@@ -2,6 +2,11 @@
     display: none !important;
 }
 
+.invisible {
+    opacity: 0 !important;
+    pointer-events: none;
+}
+
 html {
     height: 100%;
     overflow: hidden;
@@ -22,16 +27,24 @@ a, a:link, a:visited, a:active {
     text-decoration: none;
 }
 
+p {
+    margin-top: 0;
+}
+
+header {
+    margin-top: 20px;
+    padding-bottom: 10px;
+}
+
 h1 {
     font-size: 40px;
     margin: 10px 0;
+    padding: 10px 0 0 0;
 }
 
 h2 {
     font-size: 20px;
     margin: 0 0 20px 0;
-    border-bottom: 1px solid #ccc;
-    padding-bottom: 30px;
     width: 460px;
 }
 
@@ -39,6 +52,14 @@ h2 {
     float: left;
     margin: 0 20px 20px 0;
     width: 100px;
+}
+
+.intro {
+    font-size: 17px;
+    margin-left: 120px;
+    width: 340px;
+    border-top: 1px solid #ccc;
+    padding-top: 30px;
 }
 
 .duration-container {
@@ -84,11 +105,20 @@ h2 {
     right: 5px;
 }
 
-audio {
+.media {
     display: block;
     clear: both;
     margin: 40px 0 30px 0;
     width: 460px;
+}
+
+.help {
+    clear: both;
+    margin-top: 30px;
+}
+
+.help ul {
+    padding-left: 30px;
 }
 
 .help em {
@@ -105,8 +135,26 @@ audio {
     bottom: 0px;
     left: 520px;
     right: 0px;
-    padding: 20px 0 0 0;
+    padding: 30px 0 0 0;
     border-left: 1px solid #ddd;
+}
+
+.dropbox {
+    color: #666;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+
+.dropbox-info {
+    position: relative;
+    top: 94px;
+    font-size: 20px;
+}
+
+.dropbox.hover {
+    color: rgb(104, 207, 226);
 }
 
 .transcript {
@@ -122,6 +170,7 @@ audio {
     margin-top: 10px;
     padding: 10px 30px 30px 30px;
     outline: 0;
+    transition: opacity 500ms;
 }
 
 .madeby {
@@ -129,26 +178,17 @@ audio {
     bottom: 20px;
 }
 
-.dropbox {
-    clear: both;
-    width: 450px;
-    height: 80px;
-    line-height: 80px;
-    margin: 30px 0 20px 0;
-
-    border-radius: 10px;
-    background-color: #e5e5e5;
-    border: 5px dashed #ccc;
-    font-size: 17px;
-    text-align: center;
+.count {
+    padding: 10px 0;
+    margin-left: 30px;
 }
 
 .word-count {
     font-weight: bold;
 }
 
-.dropbox.hover {
-    border: 5px dashed #999;
+.button.download-file {
+    margin-left: 30px;
 }
 
 .button {
@@ -181,4 +221,28 @@ a.button { color: #333; }
 	background-color: #d0d3d6;
 	background-image: linear-gradient(rgba(0,0,0,.1), rgba(0,0,0,0));
 	box-shadow: inset 0 0 2px rgba(0,0,0,.2), inset 0 2px 5px rgba(0,0,0,.2), 0 1px rgba(255,255,255,.2);
+}
+
+@-webkit-keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        -webkit-transform: translateY(0);
+    }
+
+    40% {
+        -webkit-transform: translateY(-30px);
+    }
+
+    60% {
+        -webkit-transform: translateY(-15px);
+    }
+}
+
+.animated {
+    -webkit-animation-delay: .5s;
+    -webkit-animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+}
+
+.bounce {
+    -webkit-animation-name: bounce;
 }
