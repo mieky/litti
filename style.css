@@ -42,23 +42,29 @@ h2 {
 }
 
 .duration-container {
-    height: 20px;
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     z-index: 1;
+    opacity: 0;
+    height: 20px;
 
     background-color: rgb(189, 227, 235);
     cursor: pointer;
+    transition: opacity 200ms;
+}
+
+.duration-container.ready {
+    opacity: 1.0;
 }
 
 .duration {
     position: relative;
     top: 0;
     left: 0;
-    height: 100%;
     width: 0;
+    height: 100%;
     background-color: rgb(104, 207, 226);
 }
 

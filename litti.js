@@ -50,6 +50,7 @@ function playerReady(filename) {
     return function(e) {
         loadPosition(filename);
         setMarker(".end-time", this.duration);
+        el(".duration-container").classList.add("ready");
 
         // Save current progress till the end of time
         setInterval(function() {
