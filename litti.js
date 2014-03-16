@@ -144,6 +144,7 @@ el(".duration-container").addEventListener("mouseout", function(e) {
 el(".duration-container").addEventListener("click", function(e) {
     var currentSeconds = getDurationClickSeconds(e);
     getAudio().currentTime = currentSeconds;
+    el(".transcript").focus();
 });
 
 function loadPosition(filename) {
@@ -161,13 +162,16 @@ function savePosition(filename) {
 function loadTranscript(filename) {
     var transcript = localStorage.getItem("transcript_" + filename);
     if (transcript !== null) {
-        var t = el(".transcript")
-        // Set value, move caret to end, focus
-        t.value = transcript;
-        t.selectionStart = t.selectionEnd = t.value.length;
-        t.focus();
+        el(".transcript").value = transcript;
+        positionCaretAndFocus();
         updateWordCount();
     }
+}
+
+function positionCaretAndFocus() {
+    var t = el(".transcript");
+    t.selectionStart = t.selectionEnd || t.value.length;
+    t.focus();
 }
 
 function saveTranscript(filename) {
