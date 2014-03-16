@@ -59,6 +59,22 @@ h2 {
     background-color: rgb(104, 207, 226);
 }
 
+.time-label {
+    position: fixed;
+    top: 0;
+    color: white;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.current-time {
+    left: 5px;
+}
+
+.end-time {
+    right: 5px;
+}
+
 audio {
     display: block;
     clear: both;
