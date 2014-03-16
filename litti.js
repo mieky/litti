@@ -125,6 +125,26 @@ dropbox.addEventListener("drop", function(e) {
     reader.readAsDataURL(file);
 }, false);
 
+
+function getDurationClickSeconds(e) {
+    var percent = e.clientX / el(".duration-container").offsetWidth;
+    return percent * getAudio().duration;
+}
+
+el(".duration-container").addEventListener("mousemove", function(e) {
+    var currentSeconds = getDurationClickSeconds(e);
+    setMarker(".current-time", currentSeconds);
+}, false);
+
+el(".duration-container").addEventListener("mouseout", function(e) {
+    setMarker(".current-time", getAudio().currentTime);
+}, false);
+
+el(".duration-container").addEventListener("click", function(e) {
+    var currentSeconds = getDurationClickSeconds(e);
+    getAudio().currentTime = currentSeconds;
+});
+
 function loadPosition(filename) {
     var position = localStorage.getItem("position_" + filename);
     if (position !== null) {
