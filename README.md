@@ -13,7 +13,7 @@ Transcript an audio file in the comfort of your browser.
 - automatically store playhead position & transcript progress in localStorage
 - count words
 - download transcript as UTF-8 plaintext (*Google Chrome only*)
-- progress bar
+- smart progress bar with seeking
 
 ### Demo
 
@@ -36,8 +36,8 @@ More specifically, litti uses the following HTML5 features:
 ### Todo:
 
 - browser support detection
-- seeking with progress bar
 - support for video transcripts?
+- focus mode
 
 ### FAQ
 

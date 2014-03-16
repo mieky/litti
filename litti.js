@@ -49,6 +49,7 @@ function fileReady(filename) {
 function playerReady(filename) {
     return function(e) {
         loadPosition(filename);
+        setMarker(".end-time", this.duration);
 
         // Save current progress till the end of time
         setInterval(function() {
@@ -75,9 +76,19 @@ function playerReady(filename) {
     };
 }
 
+function setMarker(sel, time) {
+    function pad(number) {
+        return (number < 10 ? '0' + number : number);
+    }
+    var mins = Math.floor(time / 60);
+    var seconds = parseInt(time % 60, 10);
+    el(sel).innerHTML = pad(mins) + ':' + pad(seconds);
+}
+
 function updateProgress() {
     el(".duration").style.width =
         (getAudio().currentTime * 100 / getAudio().duration) + '%';
+    setMarker(".current-time", getAudio().currentTime);
 }
 
 function togglePlayState() {
@@ -113,6 +124,26 @@ dropbox.addEventListener("drop", function(e) {
     };
     reader.readAsDataURL(file);
 }, false);
+
+
+function getDurationClickSeconds(e) {
+    var percent = e.clientX / el(".duration-container").offsetWidth;
+    return percent * getAudio().duration;
+}
+
+el(".duration-container").addEventListener("mousemove", function(e) {
+    var currentSeconds = getDurationClickSeconds(e);
+    setMarker(".current-time", currentSeconds);
+}, false);
+
+el(".duration-container").addEventListener("mouseout", function(e) {
+    setMarker(".current-time", getAudio().currentTime);
+}, false);
+
+el(".duration-container").addEventListener("click", function(e) {
+    var currentSeconds = getDurationClickSeconds(e);
+    getAudio().currentTime = currentSeconds;
+});
 
 function loadPosition(filename) {
     var position = localStorage.getItem("position_" + filename);
